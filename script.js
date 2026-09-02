@@ -14,11 +14,16 @@ karty.forEach(function(karta) {
 const dataMeczu = new Date('2026-09-15T18:00:00');
 
 function aktualizujOdliczanie() {
+    const elementOdliczania = document.getElementById('odliczanie');
+    if (!elementOdliczania) {
+        return;
+    }
+
     const teraz = new Date();
     const roznica = dataMeczu - teraz;
 
     if (roznica <= 0) {
-        document.getElementById('odliczanie').textContent = 'Mecz już trwa lub się zakończył!';
+        elementOdliczania.textContent = 'Mecz już trwa lub się zakończył!';
         return;
     }
 
@@ -27,9 +32,18 @@ function aktualizujOdliczanie() {
     const minuty = Math.floor((roznica % (1000 * 60 * 60)) / (1000 * 60));
     const sekundy = Math.floor((roznica % (1000 * 60)) / 1000);
 
-    document.getElementById('odliczanie').textContent =
+    elementOdliczania.textContent =
         `${dni}d ${godziny}g ${minuty}m ${sekundy}s do meczu`;
 }
 
 aktualizujOdliczanie();
 setInterval(aktualizujOdliczanie, 1000);
+
+const linki = document.querySelectorAll('nav a');
+const aktualnaStrona = window.location.pathname.split('/').pop();
+
+linki.forEach(function(link) {
+    if (link.getAttribute('href') === aktualnaStrona) {
+        link.classList.add('aktywny');
+    }
+});
