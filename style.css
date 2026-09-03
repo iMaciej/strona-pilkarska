@@ -230,6 +230,47 @@ button[type="submit"]:hover
     margin-top: 10px;
 }
 
+.link-profilu 
+{
+    display: inline-block;
+    margin-top: 8px;
+    color: #003366;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.zdjecie-profilu 
+{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.pozycja-profilu 
+{
+    color: #666;
+    font-style: italic;
+    margin-top: -10px;
+}
+
+.statystyki-profilu 
+{
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.statystyki-profilu li 
+{
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    color: #003366;
+}
+
 @media (max-width: 600px) {
     header h1 {
         font-size: 1.5em;
