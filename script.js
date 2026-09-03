@@ -113,11 +113,36 @@ if (formularz) {
     formularz.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const potwierdzenie = document.getElementById('potwierdzenie');
-        potwierdzenie.classList.remove('ukryty');
-        potwierdzenie.classList.add('pokazany');
+        const dane = {
+            imie: document.getElementById('imie').value,
+            email: document.getElementById('email').value,
+            temat: document.getElementById('temat').value,
+            wiadomosc: document.getElementById('wiadomosc').value
+        };
 
-        formularz.reset();
+        fetch('http://localhost:3000/api/kontakt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dane)
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(odpowiedz) {
+            console.log('Odpowiedź serwera:', odpowiedz);
+
+            const potwierdzenie = document.getElementById('potwierdzenie');
+            potwierdzenie.classList.remove('ukryty');
+            potwierdzenie.classList.add('pokazany');
+
+            formularz.reset();
+        })
+        .catch(function(blad) {
+            console.error('Błąd podczas wysyłania:', blad);
+            alert('Nie udało się wysłać wiadomości. Sprawdź, czy serwer działa.');
+        });
     });
 }
 
