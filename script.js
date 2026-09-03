@@ -47,3 +47,17 @@ linki.forEach(function(link) {
         link.classList.add('aktywny');
     }
 });
+
+const formularz = document.getElementById('formularz-kontaktowy');
+
+if (formularz) {
+    formularz.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const potwierdzenie = document.getElementById('potwierdzenie');
+        potwierdzenie.classList.remove('ukryty');
+        potwierdzenie.classList.add('pokazany');
+
+        formularz.reset();
+    });
+}

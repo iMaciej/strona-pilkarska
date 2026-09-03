@@ -170,6 +170,66 @@ tbody tr:hover
     margin-bottom: 10px;
 }
 
+form 
+{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 500px;
+}
+
+label 
+{
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: -6px;
+}
+
+input, select, textarea 
+{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1em;
+}
+
+input:focus, select:focus, textarea:focus 
+{
+    outline: none;
+    border-color: #003366;
+}
+
+button[type="submit"] 
+{
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover 
+{
+    background-color: #002244;
+}
+
+.ukryty 
+{
+    display: none;
+}
+
+.pokazany 
+{
+    display: block;
+    color: #1a7a3c;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
 @media (max-width: 600px) {
     header h1 {
         font-size: 1.5em;

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - KS Lechia Grodzisk</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <img src="zdjecia/herb.svg" alt="Herb KS Lechia Grodzisk" style="width: 60px; height: auto;">
+    <h1>KS Lechia Grodzisk</h1>
+    <p>Oficjalna strona kibiców niebiesko-białych</p>
+</header>
+
+<nav>
+    <a href="index.html">Strona główna</a>
+    <a href="mecze.html">Terminarz meczów</a>
+    <a href="kadra.html">Kadra</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="kontakt.html">Kontakt</a>
+</nav>
+
+<main>
+    <section>
+        <h2>Skontaktuj się z klubem</h2>
+        <form id="formularz-kontaktowy">
+            <label for="imie">Imię i nazwisko</label>
+            <input type="text" id="imie" name="imie" required>
+
+            <label for="email">Adres e-mail</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="temat">Temat</label>
+            <select id="temat" name="temat">
+                <option value="ogolne">Pytanie ogólne</option>
+                <option value="wspolpraca">Współpraca / sponsoring</option>
+                <option value="bilety">Bilety na mecz</option>
+            </select>
+
+            <label for="wiadomosc">Wiadomość</label>
+            <textarea id="wiadomosc" name="wiadomosc" rows="5" required></textarea>
+
+            <button type="submit">Wyślij wiadomość</button>
+        </form>
+        <p id="potwierdzenie" class="ukryty">Dziękujemy! Wiadomość została wysłana.</p>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 KS Lechia Grodzisk</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
