@@ -109,18 +109,21 @@ linki.forEach(function(link) {
 
 const formularz = document.getElementById('formularz-kontaktowy');
 
-if (formularz) {
+if (formularz) 
+    {
     formularz.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const dane = {
+        const dane = 
+        {
             imie: document.getElementById('imie').value,
             email: document.getElementById('email').value,
             temat: document.getElementById('temat').value,
             wiadomosc: document.getElementById('wiadomosc').value
         };
 
-        fetch('http://localhost:3000/api/kontakt', {
+        fetch('https://strona-pilkarska-backend.onrender.com/api/kontakt', 
+        {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
