@@ -178,31 +178,87 @@ if (kontenerProfilu) {
 const listaWiadomosci = document.getElementById('lista-wiadomosci');
 
 if (listaWiadomosci) {
-    fetch('https://strona-pilkarska-backend.onrender.com/api/wiadomosci')
+    const token = localStorage.getItem('adminToken');
+
+    if (!token) {
+        window.location.href = 'login.html';
+    } else {
+        fetch('https://strona-pilkarska-backend.onrender.com/api/wiadomosci', {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then(function(response) {
+                if (response.status === 401) {
+                    localStorage.removeItem('adminToken');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                return response.json();
+            })
+            .then(function(wiadomosci) {
+                if (!wiadomosci) return;
+
+                if (wiadomosci.length === 0) {
+                    listaWiadomosci.innerHTML = '<p>Brak wiadomości.</p>';
+                    return;
+                }
+
+                let html = '';
+                wiadomosci.forEach(function(w) {
+                    const data = new Date(w.data).toLocaleString('pl-PL');
+                    html += `
+                        <div class="wiadomosc-admin">
+                            <p><strong>${w.imie}</strong> (${w.email}) - ${data}</p>
+                            <p>Temat: ${w.temat}</p>
+                            <p>${w.wiadomosc}</p>
+                        </div>
+                    `;
+                });
+                listaWiadomosci.innerHTML = html;
+            })
+            .catch(function(blad) {
+                console.error('Błąd pobierania wiadomości:', blad);
+                listaWiadomosci.innerHTML = '<p>Nie udało się pobrać wiadomości.</p>';
+            });
+    }
+}
+const formularzLogowania = document.getElementById('formularz-logowania');
+
+if (formularzLogowania) {
+    formularzLogowania.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const haslo = document.getElementById('haslo').value;
+
+        fetch('https://strona-pilkarska-backend.onrender.com/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ haslo: haslo })
+        })
         .then(function(response) {
             return response.json();
         })
-        .then(function(wiadomosci) {
-            if (wiadomosci.length === 0) {
-                listaWiadomosci.innerHTML = '<p>Brak wiadomości.</p>';
-                return;
+        .then(function(odpowiedz) {
+            if (odpowiedz.sukces) {
+                localStorage.setItem('adminToken', odpowiedz.token);
+                window.location.href = 'admin.html';
+            } else {
+                const blad = document.getElementById('blad-logowania');
+                blad.textContent = odpowiedz.komunikat;
+                blad.classList.remove('ukryty');
             }
-
-            let html = '';
-            wiadomosci.forEach(function(w) {
-                const data = new Date(w.data).toLocaleString('pl-PL');
-                html += `
-                    <div class="wiadomosc-admin">
-                        <p><strong>${w.imie}</strong> (${w.email}) - ${data}</p>
-                        <p>Temat: ${w.temat}</p>
-                        <p>${w.wiadomosc}</p>
-                    </div>
-                `;
-            });
-            listaWiadomosci.innerHTML = html;
         })
         .catch(function(blad) {
-            console.error('Błąd pobierania wiadomości:', blad);
-            listaWiadomosci.innerHTML = '<p>Nie udało się pobrać wiadomości.</p>';
+            console.error('Błąd logowania:', blad);
         });
+    });
+}
+
+const przyciskWyloguj = document.getElementById('przycisk-wyloguj');
+if (przyciskWyloguj) {
+    przyciskWyloguj.addEventListener('click', function() {
+        localStorage.removeItem('adminToken');
+        window.location.href = 'login.html';
+    });
 }
