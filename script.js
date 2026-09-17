@@ -175,3 +175,34 @@ if (kontenerProfilu) {
         `;
     }
 }
+const listaWiadomosci = document.getElementById('lista-wiadomosci');
+
+if (listaWiadomosci) {
+    fetch('https://strona-pilkarska-backend.onrender.com/api/wiadomosci')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(wiadomosci) {
+            if (wiadomosci.length === 0) {
+                listaWiadomosci.innerHTML = '<p>Brak wiadomości.</p>';
+                return;
+            }
+
+            let html = '';
+            wiadomosci.forEach(function(w) {
+                const data = new Date(w.data).toLocaleString('pl-PL');
+                html += `
+                    <div class="wiadomosc-admin">
+                        <p><strong>${w.imie}</strong> (${w.email}) - ${data}</p>
+                        <p>Temat: ${w.temat}</p>
+                        <p>${w.wiadomosc}</p>
+                    </div>
+                `;
+            });
+            listaWiadomosci.innerHTML = html;
+        })
+        .catch(function(blad) {
+            console.error('Błąd pobierania wiadomości:', blad);
+            listaWiadomosci.innerHTML = '<p>Nie udało się pobrać wiadomości.</p>';
+        });
+}
