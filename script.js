@@ -290,3 +290,28 @@ if (listaMeczow) {
             listaMeczow.innerHTML = '<tr><td colspan="4">Nie udało się wczytać terminarza.</td></tr>';
         });
 }
+const przyciskiFiltra = document.querySelectorAll('.przycisk-filtra');
+
+if (przyciskiFiltra.length > 0) {
+    przyciskiFiltra.forEach(function(przycisk) {
+        przycisk.addEventListener('click', function() {
+            const wybranaPozycja = przycisk.getAttribute('data-pozycja');
+
+            przyciskiFiltra.forEach(function(p) {
+                p.classList.remove('aktywny-filtr');
+            });
+            przycisk.classList.add('aktywny-filtr');
+
+            const wszystkieKarty = document.querySelectorAll('.karta-zawodnika');
+            wszystkieKarty.forEach(function(karta) {
+                const pozycjaZawodnika = karta.querySelector('p').textContent;
+
+                if (wybranaPozycja === 'wszyscy' || pozycjaZawodnika.includes(wybranaPozycja)) {
+                    karta.style.display = '';
+                } else {
+                    karta.style.display = 'none';
+                }
+            });
+        });
+    });
+}
