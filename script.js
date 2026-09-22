@@ -262,3 +262,31 @@ if (przyciskWyloguj) {
         window.location.href = 'login.html';
     });
 }
+
+const listaMeczow = document.getElementById('lista-meczow');
+
+if (listaMeczow) {
+    fetch('https://strona-pilkarska-backend.onrender.com/api/mecze')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(mecze) {
+            let html = '';
+            mecze.forEach(function(m) {
+                const dataSformatowana = new Date(m.data).toLocaleDateString('pl-PL');
+                html += `
+                    <tr>
+                        <td>${dataSformatowana}</td>
+                        <td>${m.przeciwnik}</td>
+                        <td>${m.miejsce}</td>
+                        <td>${m.wynik}</td>
+                    </tr>
+                `;
+            });
+            listaMeczow.innerHTML = html;
+        })
+        .catch(function(blad) {
+            console.error('Błąd pobierania meczów:', blad);
+            listaMeczow.innerHTML = '<tr><td colspan="4">Nie udało się wczytać terminarza.</td></tr>';
+        });
+}
