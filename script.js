@@ -345,3 +345,23 @@ if (przyciskiFiltra.length > 0) {
         });
     });
 }
+
+const sekcjeDoAnimacji = document.querySelectorAll('main section');
+
+if (sekcjeDoAnimacji.length > 0) {
+    sekcjeDoAnimacji.forEach(function(sekcja) {
+        sekcja.classList.add('animowana-sekcja');
+    });
+
+    const obserwator = new IntersectionObserver(function(wpisy) {
+        wpisy.forEach(function(wpis) {
+            if (wpis.isIntersecting) {
+                wpis.target.classList.add('widoczna');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    sekcjeDoAnimacji.forEach(function(sekcja) {
+        obserwator.observe(sekcja);
+    });
+}
