@@ -266,29 +266,59 @@ if (przyciskWyloguj) {
 const listaMeczow = document.getElementById('lista-meczow');
 
 if (listaMeczow) {
+    let wszystkieMecze = [];
+    let aktualneSortowanie = { pole: null, rosnaco: true };
+
+    function narysujMecze(mecze) {
+        let html = '';
+        mecze.forEach(function(m) {
+            const dataSformatowana = new Date(m.data).toLocaleDateString('pl-PL');
+            html += `
+                <tr>
+                    <td>${dataSformatowana}</td>
+                    <td>${m.przeciwnik}</td>
+                    <td>${m.miejsce}</td>
+                    <td>${m.wynik}</td>
+                </tr>
+            `;
+        });
+        listaMeczow.innerHTML = html;
+    }
+
     fetch('https://strona-pilkarska-backend.onrender.com/api/mecze')
         .then(function(response) {
             return response.json();
         })
         .then(function(mecze) {
-            let html = '';
-            mecze.forEach(function(m) {
-                const dataSformatowana = new Date(m.data).toLocaleDateString('pl-PL');
-                html += `
-                    <tr>
-                        <td>${dataSformatowana}</td>
-                        <td>${m.przeciwnik}</td>
-                        <td>${m.miejsce}</td>
-                        <td>${m.wynik}</td>
-                    </tr>
-                `;
-            });
-            listaMeczow.innerHTML = html;
+            wszystkieMecze = mecze;
+            narysujMecze(wszystkieMecze);
         })
         .catch(function(blad) {
             console.error('Błąd pobierania meczów:', blad);
             listaMeczow.innerHTML = '<tr><td colspan="4">Nie udało się wczytać terminarza.</td></tr>';
         });
+
+    const naglowkiSortowalne = document.querySelectorAll('.naglowek-sortowalny');
+    naglowkiSortowalne.forEach(function(naglowek) {
+        naglowek.addEventListener('click', function() {
+            const pole = naglowek.getAttribute('data-pole');
+
+            if (aktualneSortowanie.pole === pole) {
+                aktualneSortowanie.rosnaco = !aktualneSortowanie.rosnaco;
+            } else {
+                aktualneSortowanie.pole = pole;
+                aktualneSortowanie.rosnaco = true;
+            }
+
+            const posortowane = [...wszystkieMecze].sort(function(a, b) {
+                if (a[pole] < b[pole]) return aktualneSortowanie.rosnaco ? -1 : 1;
+                if (a[pole] > b[pole]) return aktualneSortowanie.rosnaco ? 1 : -1;
+                return 0;
+            });
+
+            narysujMecze(posortowane);
+        });
+    });
 }
 const przyciskiFiltra = document.querySelectorAll('.przycisk-filtra');
 

@@ -319,6 +319,15 @@ main a:hover {
     text-decoration: underline;
 }
 
+.naglowek-sortowalny {
+    cursor: pointer;
+    user-select: none;
+}
+
+.naglowek-sortowalny:hover {
+    background-color: #002244;
+}
+
 @media (max-width: 600px) {
     header h1 {
         font-size: 1.5em;
